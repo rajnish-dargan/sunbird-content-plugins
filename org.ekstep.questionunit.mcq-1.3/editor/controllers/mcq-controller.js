@@ -233,8 +233,11 @@ angular.module('orgEkstepQuestion').controller('mcqQuestionFormController', ['$s
       type: "image",
       preload: true
     }];
+
     addAllMedia.forEach(function (obj) {
-      $scope.mcqFormData.media.push(obj);
+      var tmpObj = obj.push($scope.mcqFormData.media)
+      var destArray = _.uniqBy(tmpObj, 'id');
+      $scope.mcqFormData.media = destArray;
     })
   }
   /**
