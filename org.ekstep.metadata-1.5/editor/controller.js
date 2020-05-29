@@ -424,24 +424,7 @@ angular.module('org.ekstep.metadataform', []).controller('metadataForm', ['$scop
      */
     $scope.clearFilters = function(){
         setTimeout(function(){
-            var topic = _.find($scope.fields, ['code', 'topic']);
-            var concepts = _.find($scope.fields, ['code', 'concepts']);
             $('.dropdown').dropdown('clear');
-            if(!_.isUndefined(topic)) {
-                // ecEditor.dispatchEvent('editor.topic.change', {key: 'topic', value: []});
-                $scope.topicSelectorMessage = '(0) topics selected';
-                $scope.contentMeta.topic = [];
-
-                ecEditor.dispatchEvent('org.ekstep.topicselector:init', {
-                    element: $scope.topicElementId,
-                    selectedTopics: [],
-                    isCategoryDependant : true,
-                    callback: $scope.callbackFn
-                });
-            }
-            // if(!_.isUndefined(concepts)) {
-            //     ecEditor.dispatchEvent('editor.concept.change', {key: 'concepts', value: []});
-            // }
             $scope.filterButtonVisibility= 0;
             $scope.$safeApply();
         }, 0)
@@ -497,11 +480,6 @@ angular.module('org.ekstep.metadataform', []).controller('metadataForm', ['$scop
                 useLabels: labels,
                 forceSelection: forceSelection
             });
-            $('label .tooltip-text')
-            .popup({
-                inline: true
-            })
-            ;
             // $('.ui.checkbox').checkbox();
             // _.find($scope.fields, ['code', "dialcode"]) && invokeDialCode();
             $scope.$safeApply();
