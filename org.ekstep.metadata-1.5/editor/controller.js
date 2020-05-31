@@ -420,7 +420,7 @@ angular.module('org.ekstep.metadataform', []).controller('metadataForm', ['$scop
     }
 
     /**
-     * @description      -   Clears Advanced Filters
+     * @description      -   Clears Advanced Dropdown Filters
      */
     $scope.clearFilters = function(){
         setTimeout(function(){
