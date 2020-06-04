@@ -154,9 +154,11 @@ angular.module('org.ekstep.metadataform', []).controller('metadataForm', ['$scop
                 $scope.getParentAssociations(object.field, associations, data, function(commonAssociations){
                     $scope.applyDependencyRules(object.field, commonAssociations, true, '#'+object.target.tempalteName);
                 })
-                if(data)
-                {
-                    $scope.filterButtonVisibility = 1;
+                for (const element in data) {
+                  if((!_.has(object.target.originalContentMeta,element)) && !_.isEmpty(data[element])){
+                    $scope.filterButtonVisibility = 1
+                    break;
+                  }
                 }
             });
         }
