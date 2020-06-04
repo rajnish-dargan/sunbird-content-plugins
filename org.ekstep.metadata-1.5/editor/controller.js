@@ -442,6 +442,7 @@ angular.module('org.ekstep.metadataform', []).controller('metadataForm', ['$scop
             $scope.clearFilter = true;
             $('.dropdown').dropdown('clear');
             $scope.filterButtonVisibility= 0;
+            $scope.clearFilter = false;
             $scope.$safeApply();
         }, 0)
     }
