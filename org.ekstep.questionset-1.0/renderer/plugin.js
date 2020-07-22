@@ -109,7 +109,7 @@ org.ekstep.questionsetRenderer = IteratorPlugin.extend({ // eslint-disable-line 
         var savedQSState = this.getQuestionSetState();
   
         EkstepRendererAPI.addEventListener("renderer:plugin:reset", function(e) {
-         this.reInstateQuestionsOnReview(e.target.data);
+         this.reInstateQuestionsOnReview(e.target.data,e.target.questionsetId);
         }, this);
       
         var savedCurrentQuestion = this.questionExistInQS(savedQSState);
@@ -408,9 +408,9 @@ org.ekstep.questionsetRenderer = IteratorPlugin.extend({ // eslint-disable-line 
     };
     Renderer.theme.setParam(this._data.id, JSON.parse(JSON.stringify(qsState)));
   },
-  reInstateQuestionsOnReview: function(param) {
+  reInstateQuestionsOnReview: function(param,questionsetId) {
     if(param) {
-      var qssState = Renderer.theme.getParam(this._data.id);
+      var qssState = Renderer.theme.getParam(questionsetId);
       qssState.currentQuestion = this._masterQuestionSet[0];
       Renderer.theme.setParam(this._data.id, qssState);
     }
