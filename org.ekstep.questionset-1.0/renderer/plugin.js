@@ -411,7 +411,7 @@ org.ekstep.questionsetRenderer = IteratorPlugin.extend({ // eslint-disable-line 
   reInstateQuestionsOnReview: function(param,questionsetId) {
     if(param) {
       var qssState = Renderer.theme.getParam(questionsetId);
-      qssState.currentQuestion = this._masterQuestionSet[0];
+      qssState.currentQuestion = this._renderedQuestions[0];
       Renderer.theme.setParam(this._data.id, qssState);
     }
   },

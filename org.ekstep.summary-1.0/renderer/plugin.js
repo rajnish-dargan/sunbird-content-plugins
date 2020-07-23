@@ -74,7 +74,12 @@ org.ekstep.summaryRenderer = Plugin.extend({ // eslint-disable-line no-undef
     });
     const allStagesList = EkstepRendererAPI.getAllStages();
     const firstContentStage = EkstepRendererAPI.getContentData();
-    var latestquestionsetID = firstContentStage.stage[1]['org.ekstep.questionset'][0]['id'];
+    var latestquestionsetID = '';
+     _.find(firstContentStage.stage, (obj) => {
+      var questionsetData = _.first(obj['org.ekstep.questionset']);
+      latestquestionsetID = questionsetData ? questionsetData.id : '';
+      return !!(questionsetData);
+    });
 
     /* Check the getAllStages ID equal to the firstContentStage ID,
      * GOTO the first Assessment Slide 
