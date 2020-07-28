@@ -23,7 +23,7 @@ angular.module('org.ekstep.question', ['org.ekstep.metadataform'])
     metadataFormName: 'questionMetaDataTemplate'
   };
   $scope.questionData = {
-    max_score: 0,
+    max_score: 1,
     isShuffleOption: false,
     isPartialScore: true,
     evalUnordered: false
