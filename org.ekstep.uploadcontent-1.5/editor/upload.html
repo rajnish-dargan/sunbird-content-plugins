@@ -79,7 +79,8 @@
                 <div class="field">
                     <select id="_selectContentType" class="ui search license dropdown  placeholder-padding"
                     ng-model="selectedContentType"
-                    ng-change="OnLicenseChange()">
+                    ng-change="OnLicenseChange()" 
+                    disabled="disableDropdown">
                     <option value="" selected>select</option>
                     <option data-value="{{license.name}}" ng-repeat="license in licenseList" ng-selected="">{{license.name}}</option>
                     </select>

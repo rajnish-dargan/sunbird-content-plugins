@@ -10,6 +10,7 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
     $scope.uploadCancelLabel = ecEditor.getContext('contentId') ? 'Cancel' : 'Close Editor';
     $scope.selectedContentType = '';
     $scope.ContentTypeSelected = false;
+    $scope.disableDropdown = false;
     $scope.getLicenseData = function() {
                 var result =  {
                     "license": [
@@ -274,6 +275,7 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
         var fileUpload = false;
         if ($scope.uploader.getFile(0) != null) {
             fileUpload = true;
+            $scope.disableDropdown = true;
         }
         var mimeType = fileUpload ? $scope.detectMimeType($scope.uploader.getName(0)) : $scope.detectMimeType($scope.contentURL);
         if (!mimeType) {
