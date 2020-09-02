@@ -252,6 +252,7 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
     }
 
     $scope.upload = function() {
+        $scope.disableDropdown = true;
         if ($scope.selectedContentType == '') {
             ecEditor.dispatchEvent("org.ekstep.toaster:error", {
                 message: 'Content Type is required to upload',
@@ -275,7 +276,6 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
         var fileUpload = false;
         if ($scope.uploader.getFile(0) != null) {
             fileUpload = true;
-            $scope.disableDropdown = true;
         }
         var mimeType = fileUpload ? $scope.detectMimeType($scope.uploader.getName(0)) : $scope.detectMimeType($scope.contentURL);
         if (!mimeType) {
