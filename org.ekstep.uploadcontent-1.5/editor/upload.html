@@ -31,7 +31,7 @@
                 <strong>Drag &amp; Drop</strong><br>
                 <span>your files here, or</span>
             </div>
-            <div class="qq-upload-button-selector qq-upload-button custom-qq-upload-button" style="bottom: 20%;">
+            <div class="qq-upload-button-selector qq-upload-button custom-qq-upload-button" id="browseButton" style="bottom: 20%;">
                 <div>Browse</div>
             </div>
         </div>
@@ -73,6 +73,19 @@
         </div>
     </div>
     <div class="content">
+        <div class="field required">
+            <div ng-hide="{{toggleLicenseDetails}}">
+                <label>Content Type</label>
+                <div class="field">
+                    <select id="_selectContentType" class="ui search license dropdown  placeholder-padding"
+                    ng-model="selectedContentType"
+                    ng-change="OnLicenseChange()">
+                    <option value="" selected>select</option>
+                    <option data-value="{{license.name}}" ng-repeat="license in licenseList" ng-selected="">{{license.name}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
         <div class="field" id='url-upload'>
             <label>URL</label>
             <div class="ui fluid transparent input">
@@ -95,7 +108,7 @@
         <div class="ui buttons">
             <button class="ui orange button" ng-click="uploadFormClose();generateTelemetry({id:'button',type:'click',subtype:'close',target:'closeupload',})" ng-disabled="showLoaderIcon" ng-bind="uploadCancelLabel"></button>
             <div class="or"></div>
-            <button class="ui blue button" ng-click="upload(); generateTelemetry({id:'button',type:'click',subtype:'upload',target:'uploadButton'}) " ng-disabled="showLoaderIcon">Upload</button>
+            <button class="ui blue button" ng-click="upload(); generateTelemetry({id:'button',type:'click',subtype:'upload',target:'uploadButton'}) " ng-disabled="(ContentTypeSelected == false)">Upload</button>
         </div>
     </div>
 </div>

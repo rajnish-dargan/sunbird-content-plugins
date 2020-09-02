@@ -8,8 +8,96 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
     $scope.showLoaderIcon = false;
     $scope.loaderIcon = ecEditor.resolvePluginResource("org.ekstep.uploadcontent", "1.5", "editor/loader.gif");
     $scope.uploadCancelLabel = ecEditor.getContext('contentId') ? 'Cancel' : 'Close Editor';
-
+    $scope.selectedContentType = '';
+    $scope.ContentTypeSelected = false;
+    $scope.getLicenseData = function() {
+                var result =  {
+                    "license": [
+                        {
+                            "identifier": "kp_ft_license_498246311",
+                            "lastStatusChangedOn": "2020-06-03T19:06:56.891+0000",
+                            "IL_SYS_NODE_TYPE": "DATA_NODE",
+                            "consumerId": "9a3a144f-5e09-4071-b6b4-7dd45ea1da69",
+                            "channel": "channel-01",
+                            "graph_id": "domain",
+                            "nodeType": "DATA_NODE",
+                            "createdOn": "2020-06-03T19:06:56.891+0000",
+                            "url": "www.url.com",
+                            "versionKey": "1591211216891",
+                            "objectType": "License",
+                            "IL_FUNC_OBJECT_TYPE": "License",
+                            "appId": "@ignore@",
+                            "name": "@+kp_ft_license_498246311",
+                            "lastUpdatedOn": "2020-06-03T19:06:56.891+0000",
+                            "IL_UNIQUE_ID": "kp_ft_license_498246311",
+                            "status": "Live",
+                            "node_id": 417788
+                        },
+                        {
+                            "identifier": "kp_ft_license_521144914",
+                            "lastStatusChangedOn": "2020-06-01T05:52:15.343+0000",
+                            "IL_SYS_NODE_TYPE": "DATA_NODE",
+                            "consumerId": "617a081d-f064-4b89-b718-2d88a7fafb97",
+                            "channel": "channel-01",
+                            "graph_id": "domain",
+                            "nodeType": "DATA_NODE",
+                            "createdOn": "2020-06-01T05:52:15.343+0000",
+                            "url": "www.url.com",
+                            "versionKey": "1590990735343",
+                            "objectType": "License",
+                            "IL_FUNC_OBJECT_TYPE": "License",
+                            "appId": "@ignore@",
+                            "name": "@+kp_ft_license_521144914",
+                            "lastUpdatedOn": "2020-06-01T05:52:15.343+0000",
+                            "IL_UNIQUE_ID": "kp_ft_license_521144914",
+                            "status": "Live",
+                            "node_id": 413475
+                        },
+                        {
+                            "identifier": "kp_ft_license_636993495",
+                            "lastStatusChangedOn": "2020-06-01T19:07:35.894+0000",
+                            "IL_SYS_NODE_TYPE": "DATA_NODE",
+                            "consumerId": "6ce1593e-c0e5-493f-b612-6e3eff36e80c",
+                            "channel": "channel-01",
+                            "graph_id": "domain",
+                            "nodeType": "DATA_NODE",
+                            "createdOn": "2020-06-01T19:07:35.894+0000",
+                            "url": "www.url.com",
+                            "versionKey": "1591038455894",
+                            "objectType": "License",
+                            "IL_FUNC_OBJECT_TYPE": "License",
+                            "appId": "@ignore@",
+                            "name": "@+kp_ft_license_636993495",
+                            "lastUpdatedOn": "2020-06-01T19:07:35.894+0000",
+                            "IL_UNIQUE_ID": "kp_ft_license_636993495",
+                            "status": "Live",
+                            "node_id": 413559
+                        }
+                    ]}
+                if(_.has(result, "license")){
+                    $scope.licenseList = [];
+                    _.forEach(result.license, function(license){
+                        $scope.licenseList.push(license);
+                    });
+                }else{
+                    $scope.toggleLicenseDetails = true
+                }
+    }
+    $scope.OnLicenseChange = function() {
+        if($scope.selectedContentType == '') {
+            $scope.ContentTypeSelected = false;
+            $('input[name="qqfile"]').attr('disabled', true);
+            $('#browseButton').css("opacity", "0.5");
+        }
+        else {
+            $scope.ContentTypeSelected = true;
+            $('input[name="qqfile"]').attr('disabled', false);
+            $('#browseButton').css("opacity", "1");
+        }
+    }
     $scope.$on('ngDialog.opened', function() {
+        $scope.getLicenseData();
+        $('#browseButton').css("opacity", "0.5");
         $scope.uploader = new qq.FineUploader({
             element: document.getElementById("upload-content-div"),
             template: 'qq-template-validation',
@@ -76,6 +164,7 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
                 console.info(" hiding the alert messages from fine uploader");                
             }
         });
+        $('input[name="qqfile"]').attr('disabled', true);
         $('#qq-template-validation').remove();
         fileUploader = $scope.uploader;
     });
@@ -162,6 +251,14 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
     }
 
     $scope.upload = function() {
+        if ($scope.selectedContentType == '') {
+            ecEditor.dispatchEvent("org.ekstep.toaster:error", {
+                message: 'Content Type is required to upload',
+                position: 'topCenter',
+                icon: 'fa fa-warning'
+            });
+            return;
+        }
         $scope.generateTelemetry({id:"button", type:"click", subtype:"upload",target:"browseButton",objecttype:'content'})
         $scope.showLoader(true);
         if ($scope.uploader.getFile(0) == null && !$scope.contentURL) {
@@ -230,7 +327,8 @@ angular.module('org.ekstep.uploadcontent-1.5', []).controller('uploadController'
                         "resourceType": "Learn",
                         "creator": ecEditor.getContext('user').name,
                         "framework": ecEditor.getContext('framework'),
-                        "organisation":ecEditor._.values(ecEditor.getContext('user').organisations)
+                        "organisation":ecEditor._.values(ecEditor.getContext('user').organisations),
+                        // "contentCategory": $scope.selectedContentType
 
                     }
                 }
